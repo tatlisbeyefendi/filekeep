@@ -1,0 +1,8 @@
+* text=auto eol=lf
+*.py text
+*.md text
+*.svg text
+*.toml text
+*.yml text
+*.tar.gz binary
+*.bundle binary
