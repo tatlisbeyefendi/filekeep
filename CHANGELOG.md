@@ -6,6 +6,15 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+
+- `dupes` no longer treats a symlink as a second copy of the file it points at; links are
+  skipped, so `dupes --apply` can never trash a link and call it a duplicate.
+- Broken symlinks keep their own modification time instead of showing up as 56 years old in
+  `ls`, `big` and `stale`.
+- `undo`, `trash` and `restore` use `os.path.lexists`, so they work on symlinks — including a
+  link whose target was moved in the same batch — instead of silently skipping them.
+
 ## [0.1.0] — 2026-10-30
 
 First release.

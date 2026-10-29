@@ -158,6 +158,17 @@ def test_scan_handles_missing_root(db: Database, tmp_path: Path) -> None:
     assert db.count() == 0
 
 
+def test_broken_symlink_keeps_its_own_timestamp(tree: Path, db: Database) -> None:
+    broken = tree / "broken-link"
+    broken.symlink_to(tree / "does-not-exist")
+    scan(db, [tree], hash_policy="never")
+    row = db.by_path(str(broken))
+    assert row is not None
+    assert row.size == 0
+    assert row.mtime > 1_000_000  # not the 1970 epoch fallback
+    assert row.is_link is True
+
+
 def test_scan_follows_symlinks_when_asked(tree: Path, tmp_path: Path, db: Database) -> None:
     link = tree / "link.txt"
     link.symlink_to(tree / "notes.txt")

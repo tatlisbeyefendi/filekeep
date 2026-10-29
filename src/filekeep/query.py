@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any
 
 from filekeep.db import FILE_COLUMNS, Database, FileRow
@@ -154,7 +154,8 @@ def duplicate_groups(
     spec: FileFilter | None = None,
 ) -> list[list[FileRow]]:
     """Return groups of files that share a size and a SHA-256 digest."""
-    spec = spec or FileFilter()
+    # a symlink points at bytes, it does not hold a second copy of them
+    spec = replace(spec or FileFilter(), include_links=False)
     clause, params = spec.build()
     candidates = [
         _row(row)

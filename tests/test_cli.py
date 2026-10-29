@@ -156,6 +156,14 @@ def test_dupes_lists_groups(tree: Path, capsys) -> None:
     assert "keep" in out and "trash" in out
 
 
+def test_dupes_ignores_symlinks(tree: Path, capsys) -> None:
+    (tree / "photos" / "one-link.jpg").symlink_to(tree / "photos" / "one.jpg")
+    scan_tree(tree, capsys)
+    main(["--json", "dupes"])
+    payload = json.loads(capsys.readouterr().out)
+    assert all("one-link.jpg" not in group["files"] for group in payload["groups"])
+
+
 def test_dupes_none_found(tree: Path, capsys) -> None:
     scan_tree(tree, capsys)
     main(["--color", "never", "dupes", "--kind", "code"])

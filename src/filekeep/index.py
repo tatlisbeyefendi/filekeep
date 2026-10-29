@@ -137,8 +137,14 @@ def walk(
                 size = int(stat.st_size)
                 mtime = float(stat.st_mtime)
             except OSError:
-                # a broken symlink: keep it visible so `doctor` can report it
-                size, mtime = 0, 0.0
+                # a broken symlink: keep it visible so `doctor` can report it, and use the
+                # link's own timestamp instead of pretending it is from 1970
+                try:
+                    stat = item.stat(follow_symlinks=False)
+                    size = 0
+                    mtime = float(stat.st_mtime)
+                except OSError:
+                    size, mtime = 0, 0.0
             ext = ext_of(name)
             yield Entry(
                 root=root_resolved,

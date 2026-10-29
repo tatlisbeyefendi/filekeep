@@ -12,6 +12,11 @@ from filekeep.db import Database
 from filekeep.journal import Journal
 
 
+def lexists(path: str | os.PathLike[str]) -> bool:
+    """``os.path.lexists``: true for broken symlinks too, where ``Path.exists`` lies."""
+    return os.path.lexists(path)
+
+
 @dataclass(frozen=True)
 class Plan:
     """A single planned change on disk."""
@@ -88,7 +93,7 @@ def apply_moves(
             done.append(plan)
             continue
         source = Path(plan.source)
-        if not source.exists() and not source.is_symlink():
+        if not lexists(source):
             continue
         try:
             final = copy_file(source, plan.target) if copy else move_file(source, plan.target)
@@ -116,7 +121,7 @@ def trash_paths(
     done: list[tuple[str, str]] = []
     for raw in paths:
         source = Path(raw)
-        if not source.exists() and not source.is_symlink():
+        if not lexists(source):
             continue
         key = uuid.uuid4().hex[:12]
         destination = trash_root / key / source.name
@@ -124,7 +129,10 @@ def trash_paths(
         if dry_run:
             continue
         destination.parent.mkdir(parents=True, exist_ok=True)
-        size = source.stat().st_size if source.exists() else 0
+        try:
+            size = os.lstat(source).st_size
+        except OSError:
+            size = 0
         shutil.move(str(source), str(destination))
         entry_id = db.trash_add(str(source), str(destination), size) if db else 0
         if journal is not None:
@@ -146,7 +154,7 @@ def restore_paths(
     for entry in entries:
         trashed = entry["trashed_path"]
         original = entry["original_path"]
-        if not Path(trashed).exists():
+        if not lexists(trashed):
             continue
         target = unique_path(original)
         done.append((trashed, str(target)))
@@ -176,7 +184,7 @@ def undo(
         source = str(entry.get("src", ""))
         target = str(entry.get("dst", ""))
         if op in {"move", "organize", "rename"}:
-            if not Path(target).exists():
+            if not lexists(target):
                 undone.append((op, target, source))
                 continue
             if dry_run:
@@ -187,14 +195,14 @@ def undo(
                 db.move_path(target, str(final))
             undone.append((op, target, str(final)))
         elif op == "copy":
-            if not dry_run and Path(target).exists():
+            if not dry_run and lexists(target):
                 Path(target).unlink()
             undone.append((op, target, source))
         elif op == "trash":
             if dry_run:
                 undone.append((op, target, source))
                 continue
-            if not Path(target).exists():
+            if not lexists(target):
                 continue
             final = move_file(target, source)
             if db is not None and entry.get("id"):

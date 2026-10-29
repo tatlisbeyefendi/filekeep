@@ -135,6 +135,15 @@ def test_duplicates_ignore_unhashed(tree: Path, db: Database) -> None:
     assert duplicate_groups(db) == []
 
 
+def test_symlinks_are_excluded_from_duplicate_groups(indexed: Database, tree: Path) -> None:
+    link = tree / "notes-link.txt"
+    link.symlink_to(tree / "notes.txt")
+    scan(indexed, [tree], hash_policy="always")
+    for group in duplicate_groups(indexed):
+        assert all(not row.is_link for row in group)
+    assert "notes-link.txt" not in names(search(indexed, FileFilter(include_links=False)))
+
+
 def test_unhashed_lists_candidates(tree: Path, db: Database) -> None:
     scan(db, [tree], hash_policy="never")
     assert len(unhashed(db)) == 8

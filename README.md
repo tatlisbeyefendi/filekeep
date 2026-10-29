@@ -369,7 +369,9 @@ $ filekeep --db /tmp/backup.db dupes --kind image
 **Does it touch the network?** No. filekeep never talks to the internet and sends no telemetry.
 
 **Does it follow symlinks?** Symlinks are indexed as symlinks (and reported by `doctor` when they
-break). Directory symlinks are only descended into with `-L/--follow-links`.
+break). Directory symlinks are only descended into with `-L/--follow-links`. A symlink is never
+treated as a duplicate copy, and moving, trashing, restoring and undoing all work on links
+themselves, broken or not.
 
 **What happens if I move a file outside filekeep?** `doctor` reports it, and the next `scan`
 prunes the row. Use `--no-prune` if you want the index to keep the memory.
