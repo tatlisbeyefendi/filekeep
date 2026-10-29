@@ -8,20 +8,20 @@
 <circle cx="22.0" cy="17.0" r="5.5" fill="#ff5f57"/>
 <circle cx="40.0" cy="17.0" r="5.5" fill="#febc2e"/>
 <circle cx="58.0" cy="17.0" r="5.5" fill="#28c840"/>
-<text x="296.0" y="21.5" fill="#8b949e" text-anchor="middle" font-size="11.5">filekeep — every file at a glance</text>
-<text x="22" y="65.0" xml:space="preserve"><tspan fill-opacity="0.62">$</tspan><tspan> </tspan><tspan font-weight="600">filekeep ls ~ -v --sort size</tspan></text>
-<text x="22" y="107.0" xml:space="preserve"><tspan fill-opacity="0.62">   SIZE   AGE  KIND      PATH                                TAGS</tspan></text>
-<text x="22" y="128.0" xml:space="preserve"><tspan> 107 MB    1y  archive   ~/archive-2023.zip                  -</tspan></text>
-<text x="22" y="149.0" xml:space="preserve"><tspan>84.0 MB    1y  app       ~/Downloads/setup-1.2.3.exe         -</tspan></text>
-<text x="22" y="170.0" xml:space="preserve"><tspan>27.1 MB    1y  image     ~/Pictures/scan-raw/dump_01.cr2     -</tspan></text>
-<text x="22" y="191.0" xml:space="preserve"><tspan>21.1 MB   15d  video     ~/Videos/demo-recording.mov         -</tspan></text>
-<text x="22" y="212.0" xml:space="preserve"><tspan> 7.7 MB   2mo  audio     ~/Music/podcast-ep41.mp3            -</tspan></text>
-<text x="22" y="233.0" xml:space="preserve"><tspan> 5.8 MB  10mo  archive   ~/Downloads/ubuntu-24.04.iso        -</tspan></text>
-<text x="22" y="254.0" xml:space="preserve"><tspan> 4.9 MB   21d  image     ~/Pictures/IMG_0042.JPG             -</tspan></text>
-<text x="22" y="275.0" xml:space="preserve"><tspan> 4.8 MB   21d  image     ~/Pictures/IMG_0043.JPG             -</tspan></text>
-<text x="22" y="296.0" xml:space="preserve"><tspan> 3.7 MB   7mo  image     ~/Pictures/holiday-2024 (copy).jpg  -</tspan></text>
-<text x="22" y="317.0" xml:space="preserve"><tspan> 3.7 MB   7mo  image     ~/Pictures/holiday-2024.jpg         -</tspan></text>
-<text x="22" y="338.0" xml:space="preserve"><tspan> 1.1 MB   8mo  document  ~/Documents/contract-final (1).pdf  -</tspan></text>
-<text x="22" y="359.0" xml:space="preserve"><tspan> 1.1 MB   8mo  document  ~/Documents/contract-final.pdf      2026,sign</tspan></text>
-<text x="22" y="401.0" xml:space="preserve"><tspan>12 files · 272 MB</tspan></text>
+<text x="90" y="21.5" fill="#8b949e" font-size="11.5">filekeep — every file at a glance</text>
+<text x="22" y="65.0" xml:space="preserve"><tspan fill="#c9d1d9" fill-opacity="0.62">$</tspan><tspan fill="#c9d1d9"> </tspan><tspan fill="#c9d1d9" font-weight="600">filekeep ls ~ -v --sort size</tspan></text>
+<text x="22" y="107.0" xml:space="preserve"><tspan fill="#c9d1d9" fill-opacity="0.62">   SIZE   AGE  KIND      PATH                                TAGS</tspan></text>
+<text x="22" y="128.0" xml:space="preserve"><tspan fill="#c9d1d9"> 107 MB    1y  archive   ~/archive-2023.zip                  -</tspan></text>
+<text x="22" y="149.0" xml:space="preserve"><tspan fill="#c9d1d9">84.0 MB    1y  app       ~/Downloads/setup-1.2.3.exe         -</tspan></text>
+<text x="22" y="170.0" xml:space="preserve"><tspan fill="#c9d1d9">27.1 MB    1y  image     ~/Pictures/scan-raw/dump_01.cr2     -</tspan></text>
+<text x="22" y="191.0" xml:space="preserve"><tspan fill="#c9d1d9">21.1 MB   15d  video     ~/Videos/demo-recording.mov         -</tspan></text>
+<text x="22" y="212.0" xml:space="preserve"><tspan fill="#c9d1d9"> 7.7 MB   2mo  audio     ~/Music/podcast-ep41.mp3            -</tspan></text>
+<text x="22" y="233.0" xml:space="preserve"><tspan fill="#c9d1d9"> 5.8 MB  10mo  archive   ~/Downloads/ubuntu-24.04.iso        -</tspan></text>
+<text x="22" y="254.0" xml:space="preserve"><tspan fill="#c9d1d9"> 4.9 MB   21d  image     ~/Pictures/IMG_0042.JPG             -</tspan></text>
+<text x="22" y="275.0" xml:space="preserve"><tspan fill="#c9d1d9"> 4.8 MB   21d  image     ~/Pictures/IMG_0043.JPG             -</tspan></text>
+<text x="22" y="296.0" xml:space="preserve"><tspan fill="#c9d1d9"> 3.7 MB   7mo  image     ~/Pictures/holiday-2024 (copy).jpg  -</tspan></text>
+<text x="22" y="317.0" xml:space="preserve"><tspan fill="#c9d1d9"> 3.7 MB   7mo  image     ~/Pictures/holiday-2024.jpg         -</tspan></text>
+<text x="22" y="338.0" xml:space="preserve"><tspan fill="#c9d1d9"> 1.1 MB   8mo  document  ~/Documents/contract-final (1).pdf  -</tspan></text>
+<text x="22" y="359.0" xml:space="preserve"><tspan fill="#c9d1d9"> 1.1 MB   8mo  document  ~/Documents/contract-final.pdf      2026,sign</tspan></text>
+<text x="22" y="401.0" xml:space="preserve"><tspan fill="#c9d1d9">12 files · 272 MB</tspan></text>
 </svg>

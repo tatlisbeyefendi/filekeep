@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="568" height="385" viewBox="0 0 568 385" role="img" aria-label="filekeep dupes — identical files, one keep and the rest gone">
+<svg xmlns="http://www.w3.org/2000/svg" width="609" height="385" viewBox="0 0 609 385" role="img" aria-label="filekeep dupes — identical files, one keep and the rest gone">
 <title>filekeep dupes — identical files, one keep and the rest gone</title>
 <style>text{font-family:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;font-size:13.0px;white-space:pre}</style>
-<rect width="568" height="385" rx="10" fill="#0d1117"/>
-<rect width="568" height="34.0" rx="10" fill="#161b22"/>
-<rect y="24.0" width="568" height="10" fill="#161b22"/>
+<rect width="609" height="385" rx="10" fill="#0d1117"/>
+<rect width="609" height="34.0" rx="10" fill="#161b22"/>
+<rect y="24.0" width="609" height="10" fill="#161b22"/>
 <circle cx="22.0" cy="17.0" r="5.5" fill="#ff5f57"/>
 <circle cx="40.0" cy="17.0" r="5.5" fill="#febc2e"/>
 <circle cx="58.0" cy="17.0" r="5.5" fill="#28c840"/>
-<text x="284.0" y="21.5" fill="#8b949e" text-anchor="middle" font-size="11.5">filekeep dupes — identical files, one keep and the rest gone</text>
-<text x="22" y="65.0" xml:space="preserve"><tspan fill-opacity="0.62">$</tspan><tspan> </tspan><tspan font-weight="600">filekeep dupes ~</tspan></text>
-<text x="22" y="107.0" xml:space="preserve"><tspan font-weight="600">group 1</tspan><tspan> · 2 copies · 3.7 MB each · 3.7 MB reclaimable</tspan></text>
-<text x="22" y="128.0" xml:space="preserve"><tspan>  </tspan><tspan fill="#7ee787">keep </tspan><tspan> ~/Pictures/holiday-2024.jpg</tspan></text>
-<text x="22" y="149.0" xml:space="preserve"><tspan>  </tspan><tspan fill="#ff7b72">trash</tspan><tspan> ~/Pictures/holiday-2024 (copy).jpg</tspan></text>
-<text x="22" y="191.0" xml:space="preserve"><tspan font-weight="600">group 2</tspan><tspan> · 2 copies · 1.1 MB each · 1.1 MB reclaimable</tspan></text>
-<text x="22" y="212.0" xml:space="preserve"><tspan>  </tspan><tspan fill="#7ee787">keep </tspan><tspan> ~/Documents/contract-final.pdf</tspan></text>
-<text x="22" y="233.0" xml:space="preserve"><tspan>  </tspan><tspan fill="#ff7b72">trash</tspan><tspan> ~/Documents/contract-final (1).pdf</tspan></text>
-<text x="22" y="275.0" xml:space="preserve"><tspan font-weight="600">group 3</tspan><tspan> · 2 copies · 238 KB each · 238 KB reclaimable</tspan></text>
-<text x="22" y="296.0" xml:space="preserve"><tspan>  </tspan><tspan fill="#7ee787">keep </tspan><tspan> ~/Downloads/invoice-march.pdf</tspan></text>
-<text x="22" y="317.0" xml:space="preserve"><tspan>  </tspan><tspan fill="#ff7b72">trash</tspan><tspan> ~/Downloads/invoice-march (1).pdf</tspan></text>
-<text x="22" y="359.0" xml:space="preserve"><tspan>3 groups · 5.0 MB reclaimable · </tspan><tspan fill-opacity="0.62">apply with `filekeep dupes --apply`</tspan></text>
+<text x="90" y="21.5" fill="#8b949e" font-size="11.5">filekeep dupes — identical files, one keep and the rest gone</text>
+<text x="22" y="65.0" xml:space="preserve"><tspan fill="#c9d1d9" fill-opacity="0.62">$</tspan><tspan fill="#c9d1d9"> </tspan><tspan fill="#c9d1d9" font-weight="600">filekeep dupes ~</tspan></text>
+<text x="22" y="107.0" xml:space="preserve"><tspan fill="#c9d1d9" font-weight="600">group 1</tspan><tspan fill="#c9d1d9"> · 2 copies · 3.7 MB each · 3.7 MB reclaimable</tspan></text>
+<text x="22" y="128.0" xml:space="preserve"><tspan fill="#c9d1d9">  </tspan><tspan fill="#7ee787">keep </tspan><tspan fill="#c9d1d9"> ~/Pictures/holiday-2024.jpg</tspan></text>
+<text x="22" y="149.0" xml:space="preserve"><tspan fill="#c9d1d9">  </tspan><tspan fill="#ff7b72">trash</tspan><tspan fill="#c9d1d9"> ~/Pictures/holiday-2024 (copy).jpg</tspan></text>
+<text x="22" y="191.0" xml:space="preserve"><tspan fill="#c9d1d9" font-weight="600">group 2</tspan><tspan fill="#c9d1d9"> · 2 copies · 1.1 MB each · 1.1 MB reclaimable</tspan></text>
+<text x="22" y="212.0" xml:space="preserve"><tspan fill="#c9d1d9">  </tspan><tspan fill="#7ee787">keep </tspan><tspan fill="#c9d1d9"> ~/Documents/contract-final.pdf</tspan></text>
+<text x="22" y="233.0" xml:space="preserve"><tspan fill="#c9d1d9">  </tspan><tspan fill="#ff7b72">trash</tspan><tspan fill="#c9d1d9"> ~/Documents/contract-final (1).pdf</tspan></text>
+<text x="22" y="275.0" xml:space="preserve"><tspan fill="#c9d1d9" font-weight="600">group 3</tspan><tspan fill="#c9d1d9"> · 2 copies · 238 KB each · 238 KB reclaimable</tspan></text>
+<text x="22" y="296.0" xml:space="preserve"><tspan fill="#c9d1d9">  </tspan><tspan fill="#7ee787">keep </tspan><tspan fill="#c9d1d9"> ~/Downloads/invoice-march.pdf</tspan></text>
+<text x="22" y="317.0" xml:space="preserve"><tspan fill="#c9d1d9">  </tspan><tspan fill="#ff7b72">trash</tspan><tspan fill="#c9d1d9"> ~/Downloads/invoice-march (1).pdf</tspan></text>
+<text x="22" y="359.0" xml:space="preserve"><tspan fill="#c9d1d9">3 groups · 5.0 MB reclaimable · </tspan><tspan fill="#c9d1d9" fill-opacity="0.62">apply with `filekeep dupes --apply`</tspan></text>
 </svg>

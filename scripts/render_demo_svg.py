@@ -85,6 +85,8 @@ def render(lines: list[str], title: str) -> str:
     visible = [ANSI_RE.sub("", line) for line in lines]
     columns = max((len(line) for line in visible), default=20)
     width = round(columns * CHAR_W + PAD_X * 2)
+    # keep the window wide enough for the title next to the traffic lights
+    width = max(width, round(PAD_X + 3 * 18 + 14 + len(title) * 11.5 * 0.72 + PAD_X))
     height = round(BAR_H + PAD_Y * 2 + len(lines) * LINE_H)
 
     out: list[str] = [
@@ -103,9 +105,15 @@ def render(lines: list[str], title: str) -> str:
     for index, colour in enumerate(("#ff5f57", "#febc2e", "#28c840")):
         cx = PAD_X + index * 18
         out.append(f'<circle cx="{cx}" cy="{BAR_H / 2}" r="5.5" fill="{colour}"/>')
+    # the title sits in the window bar, left-aligned next to the dots so it can never
+    # collide with them; long titles are ellipsized with a conservative width estimate
+    title_size = 11.5
+    dots_end = PAD_X + 3 * 18
+    room = max(6, int((width - dots_end - PAD_X) / (title_size * 0.72)))
+    shown = title if len(title) <= room else title[: max(1, room - 1)] + "…"
     out.append(
-        f'<text x="{width / 2}" y="{BAR_H / 2 + 4.5}" fill="#8b949e" '
-        f'text-anchor="middle" font-size="11.5">{html.escape(title)}</text>'
+        f'<text x="{dots_end + 14:.0f}" y="{BAR_H / 2 + 4.5}" fill="#8b949e" '
+        f'font-size="{title_size}">{html.escape(shown)}</text>'
     )
 
     y = BAR_H + PAD_Y + FONT_SIZE
@@ -115,9 +123,7 @@ def render(lines: list[str], title: str) -> str:
             continue
         parts = [f'<text x="{PAD_X:.0f}" y="{y:.1f}" xml:space="preserve">']
         for text, styles, colour in runs:
-            attrs = []
-            if colour:
-                attrs.append(f'fill="{colour}"')
+            attrs = [f'fill="{colour or DEFAULT_FG}"']
             if "1" in styles:
                 attrs.append('font-weight="600"')
             if "2" in styles:
