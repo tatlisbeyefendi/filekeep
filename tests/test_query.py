@@ -15,6 +15,8 @@ from filekeep.query import (
     unhashed,
 )
 
+from .conftest import symlink_or_skip
+
 
 def names(rows) -> list[str]:
     return [row.name for row in rows]
@@ -79,7 +81,7 @@ def test_filter_newer_than(indexed: Database, tree: Path) -> None:
 
 def test_filter_excludes_links(indexed: Database, tree: Path) -> None:
     link = tree / "link.txt"
-    link.symlink_to(tree / "notes.txt")
+    symlink_or_skip(link, tree / "notes.txt")
     scan(indexed, [tree], hash_policy="never")
     assert "link.txt" in names(search(indexed))
     assert "link.txt" not in names(search(indexed, FileFilter(include_links=False)))
@@ -137,7 +139,7 @@ def test_duplicates_ignore_unhashed(tree: Path, db: Database) -> None:
 
 def test_symlinks_are_excluded_from_duplicate_groups(indexed: Database, tree: Path) -> None:
     link = tree / "notes-link.txt"
-    link.symlink_to(tree / "notes.txt")
+    symlink_or_skip(link, tree / "notes.txt")
     scan(indexed, [tree], hash_policy="always")
     for group in duplicate_groups(indexed):
         assert all(not row.is_link for row in group)
@@ -166,6 +168,46 @@ def test_stats_on_empty_index(db: Database) -> None:
     assert result.files == 0
     assert result.kinds == []
     assert result.oldest is None
+
+
+def test_root_filter_understands_windows_separators(db: Database) -> None:
+    db.upsert_files(
+        [
+            (
+                "C:\\Users\\me",
+                "C:\\Users\\me\\Pictures\\a.jpg",
+                "a.jpg",
+                "jpg",
+                "image",
+                5,
+                1.0,
+                False,
+                "h1",
+            ),
+            (
+                "C:\\Users\\me",
+                "C:\\Users\\me\\Documents\\b.pdf",
+                "b.pdf",
+                "pdf",
+                "document",
+                9,
+                1.0,
+                False,
+                "h2",
+            ),
+        ]
+    )
+    rows = search(db, FileFilter(roots=["C:\\Users\\me\\Pictures"]))
+    assert [row.name for row in rows] == ["a.jpg"]
+    rows = search(db, FileFilter(roots=["C:/Users/me/Pictures"]))
+    assert [row.name for row in rows] == ["a.jpg"]
+
+
+def test_like_prefix_escapes_wildcards() -> None:
+    from filekeep.query import like_prefix
+
+    assert like_prefix("/tmp/100%/a_b") == "/tmp/100\\%/a\\_b/%"
+    assert like_prefix("C:\\Users\\me") == "C:/Users/me/%"
 
 
 def test_build_returns_one_equals_one_when_empty() -> None:

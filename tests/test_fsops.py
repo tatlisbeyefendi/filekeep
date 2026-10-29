@@ -19,7 +19,7 @@ from filekeep.fsops import (
 )
 from filekeep.journal import Journal
 
-from .conftest import write
+from .conftest import symlink_or_skip, write
 
 
 def test_unique_path_returns_same_when_free(tmp_path: Path) -> None:
@@ -209,7 +209,7 @@ def test_undo_when_the_target_vanished(tmp_path: Path, journal: Journal) -> None
 
 def test_undo_restores_a_broken_symlink(tmp_path: Path, journal: Journal) -> None:
     link = tmp_path / "broken-link"
-    link.symlink_to(tmp_path / "nowhere")
+    symlink_or_skip(link, tmp_path / "nowhere")
     plans = [Plan(source=str(link), target=str(tmp_path / "dest" / "broken-link"))]
     apply_moves(plans, journal=journal, dry_run=False)
     assert (tmp_path / "dest" / "broken-link").is_symlink()
@@ -222,8 +222,7 @@ def test_undo_restores_a_broken_symlink(tmp_path: Path, journal: Journal) -> Non
 def test_undo_handles_a_symlink_whose_target_moved(tmp_path: Path, journal: Journal) -> None:
     target = write(tmp_path / "a" / "f.txt", "hello")
     link = tmp_path / "b" / "f-link.txt"
-    link.parent.mkdir(parents=True)
-    link.symlink_to(target)
+    symlink_or_skip(link, target)
     plans = [
         Plan(source=str(target), target=str(tmp_path / "dest" / "f.txt")),
         Plan(source=str(link), target=str(tmp_path / "dest" / "f-link.txt")),
@@ -237,7 +236,7 @@ def test_undo_handles_a_symlink_whose_target_moved(tmp_path: Path, journal: Jour
 
 def test_trash_keeps_a_broken_symlink(tmp_path: Path, db: Database) -> None:
     link = tmp_path / "broken"
-    link.symlink_to(tmp_path / "nowhere")
+    symlink_or_skip(link, tmp_path / "nowhere")
     done = trash_paths([link], data_dir=tmp_path / "data", db=db, dry_run=False)
     assert len(done) == 1
     assert not link.is_symlink()

@@ -65,6 +65,15 @@ def journal() -> Journal:
     return Journal(Path(os.environ["FILEKEEP_HOME"]) / "journal.jsonl")
 
 
+def symlink_or_skip(link: Path, target: str | Path) -> None:
+    """Create a symlink, or skip the test where the platform does not allow it."""
+    try:
+        link.parent.mkdir(parents=True, exist_ok=True)
+        link.symlink_to(target)
+    except (OSError, NotImplementedError) as error:  # pragma: no cover - Windows without dev mode
+        pytest.skip(f"symlinks are not available here: {error}")
+
+
 def write(path: Path, content: bytes | str = "data") -> Path:
     """Create ``path`` (and parents) with ``content``."""
     path.parent.mkdir(parents=True, exist_ok=True)

@@ -87,11 +87,15 @@ def ellipsize_path(path: str, width: int, marker: str = "…") -> str:
 
 
 def shorten_home(path: str, home: str | None = None) -> str:
-    """Replace the leading home directory with ``~``."""
+    """Replace the leading home directory with ``~`` (both separators supported)."""
     home = home if home is not None else os.path.expanduser("~")
-    if home and home != "/" and path.startswith(home.rstrip("/") + os.sep):
-        return "~" + path[len(home.rstrip("/")) :]
-    if home and path == home.rstrip("/"):
+    if not home or home == "/":
+        return path
+    trimmed = home.rstrip("/" + os.sep + "\\")
+    for separator in (os.sep, "/", "\\"):
+        if path.startswith(trimmed + separator):
+            return "~" + path[len(trimmed) :]
+    if path == trimmed:
         return "~"
     return path
 

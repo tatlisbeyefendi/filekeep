@@ -10,6 +10,19 @@ from typing import Any
 from filekeep.db import FILE_COLUMNS, Database, FileRow
 
 SORTS = ("path", "name", "size", "age", "kind", "ext")
+
+#: SQL expression that compares paths with forward slashes on every platform,
+#: so a filter written on Linux still works against a Windows index.
+PATH_AS_POSIX = "REPLACE(path, CHAR(92), '/')"
+
+
+def like_prefix(path: str) -> str:
+    """Turn a directory into a LIKE pattern that matches it and everything below it."""
+    normalised = path.replace("\\", "/").rstrip("/")
+    escaped = normalised.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+    return f"{escaped}/%"
+
+
 SORT_COLUMNS = {
     "path": ("path", "ASC"),
     "name": ("name", "ASC"),
@@ -59,8 +72,10 @@ class FileFilter:
         if not self.include_links:
             clauses.append("is_link = 0")
         if self.roots:
-            clauses.append("(" + " OR ".join("path LIKE ?" for _ in self.roots) + ")")
-            params.extend(f"{root.rstrip('/')}/%" for root in self.roots)
+            clauses.append(
+                "(" + " OR ".join(f"{PATH_AS_POSIX} LIKE ? ESCAPE '\\'" for _ in self.roots) + ")"
+            )
+            params.extend(like_prefix(root) for root in self.roots)
         if self.kinds:
             clauses.append("kind IN (" + ",".join("?" for _ in self.kinds) + ")")
             params.extend(self.kinds)
@@ -75,8 +90,10 @@ class FileFilter:
             clauses.append("name LIKE ?")
             params.append(f"%{self.name_like}%")
         if self.path_like is not None:
-            clauses.append("path LIKE ?")
-            params.append(f"%{self.path_like}%")
+            clauses.append(f"{PATH_AS_POSIX} LIKE ? ESCAPE '\\'")
+            needle = self.path_like.replace("\\", "/")
+            needle = needle.replace("%", "\\%").replace("_", "\\_")
+            params.append(f"%{needle}%")
         if self.min_size is not None:
             clauses.append("size >= ?")
             params.append(int(self.min_size))

@@ -10,6 +10,8 @@ import pytest
 
 from filekeep.cli import build_parser, main
 
+from .conftest import symlink_or_skip
+
 
 def run(*args: str, capsys=None) -> tuple[int, str]:
     code = main(list(args))
@@ -157,7 +159,7 @@ def test_dupes_lists_groups(tree: Path, capsys) -> None:
 
 
 def test_dupes_ignores_symlinks(tree: Path, capsys) -> None:
-    (tree / "photos" / "one-link.jpg").symlink_to(tree / "photos" / "one.jpg")
+    symlink_or_skip(tree / "photos" / "one-link.jpg", tree / "photos" / "one.jpg")
     scan_tree(tree, capsys)
     main(["--json", "dupes"])
     payload = json.loads(capsys.readouterr().out)

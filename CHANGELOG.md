@@ -14,6 +14,10 @@ All notable changes to this project are documented here. The format follows
   `ls`, `big` and `stale`.
 - `undo`, `trash` and `restore` use `os.path.lexists`, so they work on symlinks — including a
   link whose target was moved in the same batch — instead of silently skipping them.
+- Directory filters now work on Windows: paths are compared with forward slashes on both
+  platforms (`REPLACE(path, CHAR(92), '/')`), and `LIKE` wildcards inside a path are escaped.
+  `usage` buckets Windows paths by separator-agnostic depth, and `organize` recognises a
+  destination it is already inside.
 
 ## [0.1.0] — 2026-10-30
 

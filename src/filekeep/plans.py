@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import re
 import time
 from datetime import datetime
@@ -45,7 +46,7 @@ def plan_organize(
     base = str(Path(into).expanduser().resolve())
     plans: list[Plan] = []
     for row in rows:
-        if row.path.startswith(base + "/"):
+        if row.path == base or row.path.startswith((base + os.sep, base + "/")):
             continue
         target = destination_for(row, by=by, into=base)
         if str(target) == row.path:

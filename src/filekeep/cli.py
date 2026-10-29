@@ -34,9 +34,11 @@ from filekeep.plans import (
     plan_rename,
 )
 from filekeep.query import (
+    PATH_AS_POSIX,
     SORTS,
     FileFilter,
     duplicate_groups,
+    like_prefix,
     search,
     unhashed,
 )
@@ -355,13 +357,17 @@ def cmd_usage(args: argparse.Namespace) -> int:
     root = str(Path(args.path).expanduser().resolve()) if args.path else None
     clause, params = "missing = 0", []
     if root:
-        clause += " AND path LIKE ?"
-        params.append(f"{root.rstrip('/')}/%")
+        clause += f" AND {PATH_AS_POSIX} LIKE ? ESCAPE '\\'"
+        params.append(like_prefix(root))
     rows = list(db.conn.execute(f"SELECT path, size FROM files WHERE {clause}", params))
-    depth = root.rstrip("/").count("/") + max(1, args.depth) if args.path else args.depth
+    if args.path:
+        depth = root.replace("\\", "/").rstrip("/").count("/") + max(1, args.depth)
+    else:
+        depth = args.depth
     buckets: dict[str, list[int]] = {}
     for row in rows:
-        parts = row["path"].split("/")
+        # bucket on forward slashes so Windows and POSIX indexes behave the same
+        parts = row["path"].replace("\\", "/").split("/")
         prefix = "/".join(parts[: max(1, min(depth, len(parts) - 1))]) or "/"
         bucket = buckets.setdefault(prefix, [0, 0])
         bucket[0] += row["size"]

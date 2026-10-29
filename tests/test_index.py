@@ -10,6 +10,8 @@ import pytest
 from filekeep.db import Database
 from filekeep.index import hash_file, scan, walk
 
+from .conftest import symlink_or_skip
+
 
 def test_walk_finds_files_and_skips_hidden(tree: Path) -> None:
     (tree / ".hidden").write_text("x", encoding="utf-8")
@@ -139,6 +141,9 @@ def test_scan_does_not_index_its_own_database(tree: Path, db: Database) -> None:
     assert db.by_path(str(db.path)) is None
 
 
+@pytest.mark.skipif(
+    os.name == "nt", reason="POSIX permissions are what makes a directory unreadable"
+)
 def test_scan_skips_unreadable_directories(tree: Path, db: Database) -> None:
     locked = tree / "locked"
     locked.mkdir()
@@ -160,7 +165,7 @@ def test_scan_handles_missing_root(db: Database, tmp_path: Path) -> None:
 
 def test_broken_symlink_keeps_its_own_timestamp(tree: Path, db: Database) -> None:
     broken = tree / "broken-link"
-    broken.symlink_to(tree / "does-not-exist")
+    symlink_or_skip(broken, tree / "does-not-exist")
     scan(db, [tree], hash_policy="never")
     row = db.by_path(str(broken))
     assert row is not None
@@ -171,7 +176,7 @@ def test_broken_symlink_keeps_its_own_timestamp(tree: Path, db: Database) -> Non
 
 def test_scan_follows_symlinks_when_asked(tree: Path, tmp_path: Path, db: Database) -> None:
     link = tree / "link.txt"
-    link.symlink_to(tree / "notes.txt")
+    symlink_or_skip(link, tree / "notes.txt")
     scan(db, [tree], hash_policy="never")
     row = db.by_path(str(link))
     assert row is not None and row.is_link is True
