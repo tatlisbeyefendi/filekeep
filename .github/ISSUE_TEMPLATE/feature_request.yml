@@ -1,0 +1,25 @@
+name: Feature request
+description: Suggest a command, a filter or a behaviour
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the situation on your disk, not the implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like filekeep to do?
+      placeholder: |
+        $ filekeep ls --older-than 2y --kind video
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety
+      options:
+        - label: This changes files, so it should be a dry run unless --apply is given
+        - label: This should be undoable with `filekeep undo`

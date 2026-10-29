@@ -1,0 +1,50 @@
+name: Bug report
+description: Something went wrong — a wrong result, a crash or an unexpected change on disk
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Please never paste personal file paths you would rather keep
+        private — replace them with `/home/me/...`.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: The command you ran, what you expected, what you got.
+      placeholder: |
+        $ filekeep dupes ~/Pictures
+        expected 2 groups, got 3
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `filekeep --version`
+      placeholder: filekeep 0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Linux
+        - macOS
+        - Windows
+        - Other (describe below)
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      placeholder: "3.13.1"
+  - type: textarea
+    id: doctor
+    attributes:
+      label: "`filekeep doctor --json`"
+      description: Optional, but it answers most questions about the index.
+      render: json
